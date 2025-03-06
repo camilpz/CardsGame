@@ -1,8 +1,12 @@
 
 
 
-<button class="btn btn-primary" (click)="drawCard()">Levantar carta</button>
+
 <div class="container p-3 border border-2">
+    <div class="row gap-2">
+        <button class="btn btn-success col" (click)="drawCard()">Levantar carta</button>
+        <button class="btn btn-danger col" (click)="drawCard()">Quedarse</button>
+    </div>
     
     <div class="row">
         @for (card of userHand; track $index) {
