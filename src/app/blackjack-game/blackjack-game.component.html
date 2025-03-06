@@ -1,0 +1,14 @@
+
+
+
+<button class="btn btn-primary" (click)="drawCard()">Levantar carta</button>
+<div class="container p-3 border border-2">
+    
+    <div class="row">
+        @for (card of userHand; track $index) {
+        <div class="col d-flex justify-content-center py-2">
+            <app-card [card]="card" />
+        </div>
+        }
+    </div>
+</div>
