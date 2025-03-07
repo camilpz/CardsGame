@@ -1,0 +1,20 @@
+<div class="bg-inverse">
+    <div class="container py-3 bg-body text-body min-vh-100">
+        <h2>Configuraciones</h2>
+
+        <hr>
+
+        <h3>Reverso de cartas</h3>
+        <div class="row justify-content-between">
+            @for (back of cardBacks; let i = $index; track $index) {
+                <div class="form-check col py-2">
+                    <input class="form-check-input d-none" type="radio" name="cartas" [id]="'carta' + i" [(ngModel)]="selectedCardBack" [value]="back">
+                    <label [for]="'carta' + i" class="carta-label">
+                        <img [src]="'back'+ back" alt="reverso" role="button" class="rounded p-1" [ngClass]="{ 'border border-primary border-3': selectedCardBack == back }">
+                    </label>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

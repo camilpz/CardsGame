@@ -9,7 +9,7 @@
         </div>
     </div>
     <!-- Center content -->
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center h-100">
         @if (card.suit == 'hearts') {
         <svg xmlns="http://www.w3.org/2000/svg" width="96px" height="96px" fill="currentColor" [ngClass]="getColor()"
             class="bi" viewBox="0 0 16 16">
@@ -42,10 +42,10 @@
 
     <!-- Bottom card -->
     <div class="row">
-        <div class="col text-start">
+        <div class="col text-start rotate-180">
             <i class="bi p-3 fs-2" [ngClass]="[getIcon(), getColor()]"></i>
         </div>
-        <div class="col text-end pe-4 fs-2" [ngClass]="getColor()">
+        <div class="col text-end pe-4 fs-2 rotate-180" [ngClass]="getColor()">
             {{card.name}}
         </div>
     </div>
