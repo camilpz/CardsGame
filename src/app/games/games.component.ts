@@ -8,5 +8,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './games.component.css'
 })
 export class GamesComponent {
-
+  //Atributos
+  
+  //------------------------------------Metodos------------------------------------//
 }

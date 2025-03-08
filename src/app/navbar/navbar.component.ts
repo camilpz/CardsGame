@@ -8,10 +8,14 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
+  //Atributos
+  
+  
+  //------------------------------------Metodos------------------------------------//
   toggleTheme() {
     const htmlElement = document.documentElement;
     const currentTheme = htmlElement.getAttribute("data-bs-theme");
     htmlElement.setAttribute("data-bs-theme", currentTheme === "light" ? "dark" : "light");
   }
+  
 }

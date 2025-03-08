@@ -8,7 +8,7 @@
         <div class="row justify-content-between">
             @for (back of cardBacks; let i = $index; track $index) {
                 <div class="form-check col py-2">
-                    <input class="form-check-input d-none" type="radio" name="cartas" [id]="'carta' + i" [(ngModel)]="selectedCardBack" [value]="back">
+                    <input class="form-check-input d-none" type="radio" name="cartas" [id]="'carta' + i" [(ngModel)]="selectedCardBack" [value]="back" (change)="changeCardBack()">
                     <label [for]="'carta' + i" class="carta-label">
                         <img [src]="'back'+ back" alt="reverso" role="button" class="rounded p-1" [ngClass]="{ 'border border-primary border-3': selectedCardBack == back }">
                     </label>

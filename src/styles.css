@@ -12,3 +12,24 @@
     color: #212529 !important;
     /* Oscuro */
 }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated-card {
+    animation: fadeInUp 1s ease-out;
+    transition: all 0.5s;
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
+}
