@@ -1,0 +1,50 @@
+<div class="">
+    <div class="p-3" style="min-height: 402px;">
+        <!-- Cartas -->
+        <div class="d-flex justify-content-center align-items-start gap-3">
+            <!-- deck -->
+            <div class="flex-column justify-content-center align-items-start gap-5 p-3 flex-wrap pt-3 border rounded"
+                style="min-height: 650px;">
+                <img [src]="'deck'+selectedBack" alt="reverso" class="p-0 mb-2" style="width: 172px; height: 248px;"
+                    (click)="getAvailableCards()" />
+                @for (card of availableCards; track $index) {
+                <div class="animated-card" style="height: 50px;">
+                    <app-card [card]="card" [cardSize]="'small'" [clickeable]="true" />
+                </div>
+                }
+            </div>
+
+            <!-- in-game cards -->
+            <div class="d-flex gap-3 p-3 justify-content-start border rounded" style="min-height: 650px; min-width: 1264px;">
+                @for (pila of pilasCartas; track $index) {
+                <div class="flex-column">
+                    @for (card of pila; track $index) {
+                    <div class="animated-card" style="height: 50px;">
+                        <app-card [card]="card" [cardSize]="'small'" />
+                    </div>
+                    }
+                </div>
+
+
+                }
+            </div>
+
+            <!-- deck -->
+            <div class="flex-column justify-content-center align-items-start gap-5 p-3 flex-wrap pt-3 border opacity-0"
+                style="min-height: 650px;">
+                <img [src]="'deck'+selectedBack" alt="reverso" class="p-0 mb-2" style="width: 172px; height: 248px;"
+                    (click)="getAvailableCards()" />
+                @for (card of availableCards; track $index) {
+                <div class="animated-card" style="height: 50px;">
+                    <app-card [card]="card" [cardSize]="'small'" [clickeable]="true" />
+                </div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>

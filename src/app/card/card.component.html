@@ -1,11 +1,11 @@
-<div class="card bg-light border" style="width: 210px; height: 312px;">
+<div class="card bg-light border" [ngClass]="' card-'+ cardSize + ' border-' + borderColor" (click)="selectCard()">
     <!-- Top card -->
     <div class="row">
-        <div class="col text-start ps-4 fs-2" [ngClass]="getColor()">
+        <div class="col text-start ps-4" [ngClass]="getColor()">
             {{card.name}}
         </div>
         <div class="col text-end">
-            <i class="bi p-3 fs-2" [ngClass]="[getIcon(), getColor()]"></i>
+            <i class="bi p-3" [ngClass]="[getIcon(), getColor()]"></i>
         </div>
     </div>
     <!-- Center content -->
@@ -18,11 +18,11 @@
 
     <!-- Bottom card -->
     <div class="row rotate-180">
-        <div class="col text-start ps-4 fs-2" [ngClass]="getColor()">
+        <div class="col text-start ps-4" [ngClass]="getColor()">
             {{card.name}}
         </div>
         <div class="col text-end">
-            <i class="bi p-3 fs-2" [ngClass]="[getIcon(), getColor()]"></i>
+            <i class="bi p-3" [ngClass]="[getIcon(), getColor()]"></i>
         </div>
     </div>
 </div>

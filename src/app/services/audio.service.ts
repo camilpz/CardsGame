@@ -33,5 +33,9 @@ export class AudioService {
     this.playAudio(this.cardDealAudios[randomIndex]);
   }
   
+  playDeckShuffle() {
+    this.playAudio("dealDeck1.mp3");
+  }
+  
   
 }

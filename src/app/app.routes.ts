@@ -3,6 +3,8 @@ import { BlackjackGameComponent } from './blackjack-game/blackjack-game.componen
 import { ConfigsComponent } from './configs/configs.component';
 import { GamesComponent } from './games/games.component';
 import { AppComponent } from './app.component';
+import { SudokuGameComponent } from './sudoku-game/sudoku-game.component';
+import { SolitarioGameComponent } from './solitario-game/solitario-game.component';
 
 export const routes: Routes = [
     {
@@ -25,6 +27,14 @@ export const routes: Routes = [
             {
                 path: 'blackjack',
                 component: BlackjackGameComponent
+            },
+            {
+                path: 'solitario',
+                component: SolitarioGameComponent
+            },
+            {
+                path: 'sudoku',
+                component: SudokuGameComponent
             },
             {
                 path: 'configs',

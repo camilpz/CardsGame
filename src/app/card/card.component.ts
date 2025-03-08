@@ -11,11 +11,21 @@ import { CommonModule } from '@angular/common';
 export class CardComponent {
   //Inputs
   @Input() card!: Card;
+  @Input() cardSize: string = 'medium';
+  @Input() clickeable: boolean = false;
+  
+  borderColor: string = '';
 
   
   //------------------------------------Metodos------------------------------------//
   getNumber() : number{
     return this.card.value;
+  }
+  
+  selectCard(){
+    if(this.clickeable){
+      this.borderColor = 'primary border-3';
+    }
   }
 
   getIcon() : string{
