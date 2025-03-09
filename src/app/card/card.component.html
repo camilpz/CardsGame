@@ -1,3 +1,9 @@
+@if(card.isHidden){
+<div class="card border-0">
+    <img [src]="'back'+selectedBack" alt="reverso" class="p-0" style="width: 210px; height: 312px;">
+</div>
+}
+@else {
 <div class="card bg-light border" [ngClass]="' card-'+ cardSize + ' border-' + borderColor" (click)="selectCard()">
     <!-- Top card -->
     <div class="row">
@@ -26,3 +32,4 @@
         </div>
     </div>
 </div>
+}

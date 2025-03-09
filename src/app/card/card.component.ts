@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Card } from '../interfaces/models';
 import { CommonModule } from '@angular/common';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-card',
@@ -8,14 +9,21 @@ import { CommonModule } from '@angular/common';
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
-export class CardComponent {
+export class CardComponent implements OnInit{
   //Inputs
   @Input() card!: Card;
   @Input() cardSize: string = 'medium';
   @Input() clickeable: boolean = false;
   
   borderColor: string = '';
+  selectedBack: string = "Waves.png";
 
+  constructor(private configService: ConfigService) {
+  }
+
+  ngOnInit(): void {
+    this.selectedBack = this.configService.getCardBack();
+  }
   
   //------------------------------------Metodos------------------------------------//
   getNumber() : number{

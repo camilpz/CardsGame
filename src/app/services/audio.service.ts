@@ -37,5 +37,7 @@ export class AudioService {
     this.playAudio("dealDeck1.mp3");
   }
   
-  
+  playVictoy(){
+    this.playAudio("victory.mp3");
+  }
 }

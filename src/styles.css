@@ -13,7 +13,7 @@
     /* Oscuro */
 }
 
-@keyframes fadeInUp {
+@keyframes fadeInDown {
     from {
         opacity: 0;
         transform: translateY(-20px);
@@ -26,10 +26,14 @@
 }
 
 .animated-card {
-    animation: fadeInUp 1s ease-out;
+    animation: fadeInDown 1s ease-out;
     transition: all 0.5s;
 }
 
 .rotate-180 {
     transform: rotate(180deg);
+}
+
+.mouse-click{
+    cursor: pointer;
 }

@@ -17,6 +17,7 @@ export class SolitarioGameComponent implements OnInit {
   solitarioDeck: Card[] = [];
   availableCards: Card[] = [];
   selectedBack: string = "Waves.png";
+  selectedCard: Card | null = null;
 
   constructor(
     private readonly deckService: DeckService,
@@ -60,4 +61,13 @@ export class SolitarioGameComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  moveCard(pila: Card[]) {
+    if (this.selectedCard) {
+      pila.push(this.selectedCard);
+      this.selectedCard = null;
+    }
+    else {
+      this.selectedCard = pila.pop()!;
+    }
+  }
 }

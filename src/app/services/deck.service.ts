@@ -14,17 +14,17 @@ export class DeckService {
     let cards: Card[] = [];
     
     for (let index = 2; index <= 10; index++) {
-      let card : Card = { value: index, name: index.toString(), suit: suit};
+      let card : Card = { value: index, name: index.toString(), suit: suit, isHidden: false};
       cards.push(card);
     }
     
     let figures = ['J','Q','K'];
     for (let index = 0; index < figures.length; index++) {
-      let card : Card = { value: 10, name: figures[index], suit: suit};
+      let card : Card = { value: 10, name: figures[index], suit: suit, isHidden: false};
       cards.push(card);
     }
     
-    let cardA : Card = { value: 11, name: 'A', suit: suit};
+    let cardA : Card = { value: 11, name: 'A', suit: suit, isHidden: false};
     cards.push(cardA);
 
     return cards;

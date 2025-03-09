@@ -2,10 +2,9 @@
     <div class="container p-3" style="min-height: 402px;">
         <!-- Cartas del dealer -->
         <div class="d-flex justify-content-center align-items-end gap-3 animated-card">
-            <img [src]="'back'+selectedBack" alt="reverso" class="p-0" style="width: 210px; height: 312px;"
-                [class.d-none]="!hiddenCard">
+            <!-- <img [src]="'back'+selectedBack" alt="reverso" class="p-0" style="width: 210px; height: 312px;"> -->
             <div class="d-flex justify-content-center gap-5 px-5 flex-wrap pt-3 me-5"
-                style="transform: translateX(-80px);" [class.d-none]="hiddenCard">
+                style="transform: translateX(-80px);">
                 @for (card of dealerHand; track $index) {
                 <div class="animated-card" style="width: 50px;">
                     <app-card [card]="card" />
@@ -22,20 +21,20 @@
     <div class="container p-3 border border-2 bg-secondary" style="min-height: 470px;">
         <!-- Puntuaciones -->
         <div class="text-center d-flex gap-3 align-items-center justify-content-center">
-            <h2 class="p-1 text-center bg-light rounded"
-                [ngClass]="(getUserHandValue() > 21) || ((getDealerHandValue() > getUserHandValue()) && (21 > getDealerHandValue())) && !hiddenCard ? 'text-danger':'text-success'">
+            <h2 class="p-1 text-center bg-light rounded" [ngClass]="'text-success'">
                 Puntuacion usuario: {{getUserHandValue()}}
             </h2>
             <h2 class="p-1 text-center bg-light rounded"
                 [ngClass]="getDealerHandValue() > 21 ? 'text-danger':'text-success'">
-                Puntuacion dealer: {{hiddenCard ? '??' : getDealerHandValue()}}
+                Puntuacion dealer: {{dealerHand.length > 2 || gameFinished ? getDealerHandValue() : '??'}}
             </h2>
         </div>
 
         <!-- Botones -->
         <div class="row gap-2 mb-2 px-2">
-            <button class="btn btn-danger col" (click)="dealerDrawCard()">Quedarse</button>
-            <button class="btn btn-success col" (click)="drawCard()">Levantar carta</button>
+            <button class="btn btn-danger col" (click)="dealersTurns()" [disabled]="gameFinished">Quedarse</button>
+            <button class="btn btn-success col" (click)="usersTurn()" [disabled]="gameFinished">Levantar
+                carta</button>
         </div>
 
         <!-- Cartas del jugador -->

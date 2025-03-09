@@ -5,6 +5,10 @@ import { DeckService } from '../services/deck.service';
 import { AudioService } from '../services/audio.service';
 import { CommonModule } from '@angular/common';
 import { ConfigService } from '../services/config.service';
+import Swal from 'sweetalert2';
+import { AlertService } from '../services/alert.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-blackjack-game',
@@ -16,56 +20,88 @@ export class BlackjackGameComponent implements OnInit {
   //Atributos
   blackjackDeck: Card[] = [];
   selectedBack: string = "Waves.png";
-  hiddenCard: boolean = true;
   userHand: Card[] = [];
   dealerHand: Card[] = [];
+  gameFinished: boolean = false;
+  gameResult: string = "";
 
   constructor(
     private readonly deckService: DeckService,
     private readonly audioService: AudioService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly alertService: AlertService,
+    private readonly router: Router
   ) { }
 
-
   ngOnInit() {
-    this.blackjackDeck = this.deckService.generateBlackjackDeck();
-    this.dealerHand.push(this.blackjackDeck.pop()!);
     this.selectedBack = this.configService.getCardBack();
+    this.startGame();
   }
 
-  //------------------------------------Metodos------------------------------------//
-  drawCard() {
-    if (this.getUserHandValue() < 21) {
-      this.audioService.playCardDealRandom()
-      this.userHand.push(this.blackjackDeck.pop()!);
-      console.log("Mano de jugador", this.userHand);
+  //------------------------------------Inicio------------------------------------//
+
+  async startGame() {
+    this.userHand = [];
+    this.dealerHand = [];
+    this.blackjackDeck = this.deckService.generateBlackjackDeck();
+    this.gameFinished = false;
+    this.gameResult = "";
+
+    await this.drawCard(300);
+    await this.dealerDrawCard(false, 300);
+    await this.drawCard(300);
+    await this.dealerDrawCard(true, 1000);
+
+    if(this.getUserHandValue() == 21 || this.getDealerHandValue() == 21){
+      await this.endGame();
     }
+  }
+
+  //------------------------------------Toma de cartas------------------------------------//
+
+  async drawCard(delay: number = 0) {
+    this.audioService.playCardDealRandom();
+    this.userHand.push(this.blackjackDeck.pop()!);
+    await this.delay(delay);
+
+    console.log("Mano de jugador", this.userHand);
+  }
+  
+  async usersTurn() {
+    await this.drawCard(600);
 
     if (this.getUserHandValue() >= 21) {
-      this.dealerDrawCard();
-      this.audioService.playCardFlipRandom();
+      await this.dealersTurns();
     }
   }
 
-  async dealerDrawCard() {
-    this.hiddenCard = false;
+  async dealerDrawCard(isHidden: boolean = false, delay: number = 0) {
+    let card = this.blackjackDeck.pop()!;
+    card.isHidden = isHidden;
+
+    this.dealerHand.push(card);
+    await this.delay(delay);
+
+    console.log("Mano del dealer", this.dealerHand);
+  }
+  
+  async dealersTurns() {
+    this.revealDealerHand();
+    //TODO: AGREGAR DELAY CUANDO EL DEALER NO TIENE QUE TOMAR CARTAS
     while (this.getDealerHandValue() < 17) {
-      await this.delay(1500); //Delay de 1.5s
-      this.dealerHand.push(this.blackjackDeck.pop()!);
+      await this.dealerDrawCard(false, 1000);
     }
-
-    await this.delay(1500); //Delay de 1.5s
-    this.checkScore();
+    
+    this.endGame();
   }
+
+  //------------------------------------Calculos------------------------------------//
 
   getUserHandValue() {
     let value = 0;
     for (let card of this.userHand) {
       value += card.value;
     }
-
-    console.log("Valor de la mano del usuario", value);
-
     return value;
   }
 
@@ -74,35 +110,64 @@ export class BlackjackGameComponent implements OnInit {
     for (let card of this.dealerHand) {
       value += card.value;
     }
-
-    console.log("Valor de la mano del dealer", value);
-
     return value;
   }
 
-  checkScore() {
-    let userScore = this.getUserHandValue();
-    let dealerScore = this.getDealerHandValue();
-    let result: string = "";
 
-    if (userScore > 21) {
-      result = "Perdiste";
-    } else if (dealerScore > 21) {
-      result = "Ganaste";
-    } else if (userScore > dealerScore) {
-      result = "Ganaste";
-    } else if (userScore < dealerScore) {
-      result = "Perdiste";
-    } else {
-      result = "Empate";
+  async endGame() {
+    if (!this.gameFinished) {
+      let userScore = this.getUserHandValue();
+      let dealerScore = this.getDealerHandValue();
+
+      this.delay(1000);
+      if (userScore == 21 && dealerScore == 21 && this.userHand.length == 2 && this.dealerHand.length == 2) {
+        this.revealDealerHand();
+        this.gameResult = "Empate, ambos tienen Blackjack!";
+      } else if (userScore == 21 && this.userHand.length == 2) {
+        this.gameResult = "Ganaste, tienes Blackjack!";
+      } else if (dealerScore == 21 && this.dealerHand.length == 2) {
+        this.revealDealerHand();
+        this.gameResult = "Perdiste, el dealer tiene Blackjack!";
+      } else if (userScore > 21) {
+        this.gameResult = "Perdiste";
+      } else if (dealerScore > 21) {
+        this.gameResult = "Ganaste";
+      } else if (userScore > dealerScore) {
+        this.gameResult = "Ganaste";
+      } else if (userScore < dealerScore) {
+        this.gameResult = "Perdiste";
+      } else {
+        this.gameResult = "Empate";
+      }
+
+      this.gameFinished = true;
+
+      this.showAlert();
     }
-
-    console.log(result);
-    alert(result);
   }
+
+  //------------------------------------Otros------------------------------------//
 
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+  async revealDealerHand() {
+    this.dealerHand.map(card => card.isHidden = false);
+    this.audioService.playCardFlipRandom();
+    await this.delay(1500);
+  }
+
+  showAlert(){
+    if (this.gameResult) {
+      this.alertService.showAlert(this.gameResult, "¿Desea jugar otra partida?").then((result) => {
+        if(result.isConfirmed){
+          this.startGame();
+        }
+        else{
+          this.router.navigate(['/home/games']);
+        }
+      })
+    }
+  }
 }
